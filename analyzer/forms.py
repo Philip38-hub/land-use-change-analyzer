@@ -1,6 +1,16 @@
 from django import forms
 from .models import AnalysisProject, AerialImage, LandUseClass
 
+class AnalysisProjectForm(forms.ModelForm):
+    """Form for creating and updating analysis projects."""
+    class Meta:
+        model = AnalysisProject
+        fields = ['name', 'description']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        }
+
 class AerialImageForm(forms.ModelForm):
     """Form for uploading aerial images."""
     class Meta:
