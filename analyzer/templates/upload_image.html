@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1>Upload Image for {{ project.name }}</h1>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="{{ form.name.id_for_label }}" class="form-label">Image Name</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.name.errors }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.year.id_for_label }}" class="form-label">Year</label>
+                {{ form.year }}
+                {% if form.year.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.year.errors }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.image.id_for_label }}" class="form-label">Image File</label>
+                {{ form.image }}
+                <div class="form-text">Upload a georeferenced aerial image (e.g., GeoTIFF or similar format)</div>
+                {% if form.image.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.image.errors }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="{{ form.extent_north.id_for_label }}" class="form-label">North Extent (Latitude)</label>
+                        {{ form.extent_north }}
+                        {% if form.extent_north.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.extent_north.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="{{ form.extent_south.id_for_label }}" class="form-label">South Extent (Latitude)</label>
+                        {{ form.extent_south }}
+                        {% if form.extent_south.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.extent_south.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="{{ form.extent_east.id_for_label }}" class="form-label">East Extent (Longitude)</label>
+                        {{ form.extent_east }}
+                        {% if form.extent_east.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.extent_east.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="{{ form.extent_west.id_for_label }}" class="form-label">West Extent (Longitude)</label>
+                        {{ form.extent_west }}
+                        {% if form.extent_west.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.extent_west.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-text mb-3">
+                The extent fields are optional but help with proper geographic positioning of the results.
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Upload</button>
+            <a href="{% url 'project_detail' project.id %}" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
