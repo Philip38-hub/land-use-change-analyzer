@@ -5,7 +5,65 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import AnalysisProject, AerialImage, LandUseClass, AnalysisResult, LandUseStatistics, ChangeStatistics
 from .forms import AnalysisProjectForm, AerialImageForm
-# from .utils import classify_image, detect_changes
+from .utils import classify_image, detect_changes
+
+def index(request):
+    """Home page view."""
+    projects = AnalysisProject.objects.all().order_by('-created_at')[:5]
+    return render(request, 'index.html', {'projects': projects})
+
+class ProjectListView(ListView):
+    """View to list all projects."""
+    model = AnalysisProject
+    template_name = 'project_list.html'
+    context_object_name = 'projects'
+    ordering = ['-created_at']
+
+class ProjectDetailView(DetailView):
+    """View to display details of a project."""
+    model = AnalysisProject
+    template_name = 'project_detail.html'
+    context_object_name = 'project'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = self.get_object()
+        images = project.images.all().order_by('year')
+        context['images'] = images
+        
+        # Check if this project has a result
+        try:
+            result = project.result
+            context['result'] = result
+            context['has_result'] = True
+        except AnalysisResult.DoesNotExist:
+            context['has_result'] = False
+            
+        return context
+
+class ProjectCreateView(CreateView):
+    """View to create a new project."""
+    model = AnalysisProject
+    form_class = AnalysisProjectForm
+    template_name = 'project_form.html'
+    
+    def get_success_url(self):
+        return reverse_lazy('project_detail', kwargs={'pk': self.object.pk})
+
+class ProjectUpdateView(UpdateView):
+    """View to update a project."""
+    model = AnalysisProject
+    form_class = AnalysisProjectForm
+    template_name = 'project_form.html'
+    
+    def get_success_url(self):
+        return reverse_lazy('project_detail', kwargs={'pk': self.object.pk})
+
+class ProjectDeleteView(DeleteView):
+    """View to delete a project."""
+    model = AnalysisProject
+    template_name = 'project_confirm_delete.html'
+    success_url = reverse_lazy('project_list')
 
 def upload_image(request, project_id):
     """View to upload an image for a project."""
