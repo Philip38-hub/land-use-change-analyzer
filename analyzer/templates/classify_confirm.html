@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1>Classify Land Use</h1>
+    </div>
+    <div class="card-body">
+        <p>Are you sure you want to classify land use in this image?</p>
+        
+        <div class="mb-4">
+            <h5>{{ image.name }} ({{ image.year }})</h5>
+            <img src="{{ image.image.url }}" class="img-fluid" style="max-height: 300px;" alt="{{ image.name }}">
+        </div>
+        
+        <p>This will identify different land use types (urban, vegetation, water, etc.) in the image using K-means clustering.</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Classify Now</button>
+            <a href="{% url 'project_detail' image.project.id %}" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
