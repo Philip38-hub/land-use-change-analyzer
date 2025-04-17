@@ -84,3 +84,20 @@ def upload_image(request, project_id):
         'form': form,
         'project': project
     })
+
+def classify_land_use(request, image_id):
+    """View to classify land use in an image."""
+    image = get_object_or_404(AerialImage, id=image_id)
+    
+    # Perform classification
+    if request.method == 'POST':
+        success, message = classify_image(image)
+        
+        if success:
+            messages.success(request, 'Land use classification completed successfully.')
+        else:
+            messages.error(request, f'Error during classification: {message}')
+            
+        return redirect('project_detail', pk=image.project.id)
+    
+    return render(request, 'classify_confirm.html', {'image': image})
