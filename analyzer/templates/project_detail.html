@@ -106,10 +106,10 @@
         </div>
         {% else %}
         <p>
-            To analyze land use changes over time, you need to classify at least two images.
-            {% if images|length >= 2 and all_classified %}
+            To analyze land use changes over time, you need to classify at least two images.<br>
+            {% if classified_count >= 2 %}
             <a href="{% url 'analyze_changes' project.id %}" class="btn btn-primary">Analyze Changes</a>
-            {% elif not all_classified %}
+            {% else %}
             <div class="alert alert-warning">
                 All images must be classified before analyzing changes.
             </div>

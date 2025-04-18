@@ -31,6 +31,10 @@ class ProjectDetailView(DetailView):
         images = project.images.all().order_by('year')
         context['images'] = images
         
+        # Count classified images
+        classified_count = images.filter(classified_image__isnull=False).count()
+        context['classified_count'] = classified_count
+        
         # Check if this project has a result
         try:
             result = project.result
