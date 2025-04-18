@@ -1,1 +1,4 @@
 **/env
+**/results
+**/uploads
+db.sqlite3

@@ -63,9 +63,9 @@
                                 {% for stat in image.statistics.all %}
                                 <tr>
                                     <td>
-                                        <!-- <span class="badge" style="background-color: {{ stat.land_use_class.color }}">
+                                        <span class="badge" style="background-color: {{ stat.land_use_class.color }}">
                                             {{ stat.land_use_class.name }}
-                                        </span> -->
+                                        </span>
                                     </td>
                                     <td>{{ stat.area_pixels }}</td>
                                     <td>{{ stat.percentage|floatformat:2 }}%</td>
