@@ -105,3 +105,34 @@ def classify_land_use(request, image_id):
         return redirect('project_detail', pk=image.project.id)
     
     return render(request, 'classify_confirm.html', {'image': image})
+
+def analyze_changes(request, project_id):
+    """View to analyze changes between two images."""
+    project = get_object_or_404(AnalysisProject, id=project_id)
+    images = project.images.all().order_by('year')
+    
+    if images.count() < 2:
+        messages.error(request, 'At least two images are required for change analysis.')
+        return redirect('project_detail', pk=project_id)
+    
+    # Check if images have been classified
+    if not all(img.classified_image for img in images):
+        messages.error(request, 'All images must be classified before analyzing changes.')
+        return redirect('project_detail', pk=project_id)
+    
+    if request.method == 'POST':
+        # Get the two images to compare
+        earlier_image = images.first()
+        later_image = images.last()
+        
+        # Perform change detection
+        success, message = detect_changes(project, earlier_image, later_image)
+        
+        if success:
+            messages.success(request, 'Land use change analysis completed successfully.')
+        else:
+            messages.error(request, f'Error during analysis: {message}')
+            
+        return redirect('project_detail', pk=project_id)
+    
+    return render(request, 'analyze_confirm.html', {'project': project, 'images': images})

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1>Analyze Land Use Changes</h1>
+    </div>
+    <div class="card-body">
+        <p>Are you sure you want to analyze land use changes for this project?</p>
+        
+        <div class="row mb-4">
+            {% for image in images %}
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>{{ image.name }} ({{ image.year }})</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Original</h6>
+                                <img src="{{ image.image.url }}" class="img-fluid" alt="{{ image.name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Classified</h6>
+                                <img src="{{ image.classified_image.url }}" class="img-fluid" alt="Classified {{ image.name }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <p>This will compare the classified images to detect and visualize land use changes over time.</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Analyze Changes</button>
+            <a href="{% url 'project_detail' project.id %}" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
