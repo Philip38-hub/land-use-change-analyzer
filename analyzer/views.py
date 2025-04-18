@@ -136,3 +136,21 @@ def analyze_changes(request, project_id):
         return redirect('project_detail', pk=project_id)
     
     return render(request, 'analyze_confirm.html', {'project': project, 'images': images})
+
+def view_results(request, result_id):
+    """View to display analysis results."""
+    result = get_object_or_404(AnalysisResult, id=result_id)
+    project = result.project
+    
+    # Get statistics
+    earlier_stats = LandUseStatistics.objects.filter(image=result.earlier_image)
+    later_stats = LandUseStatistics.objects.filter(image=result.later_image)
+    change_stats = ChangeStatistics.objects.filter(result=result)
+    
+    return render(request, 'view_results.html', {
+        'result': result,
+        'project': project,
+        'earlier_stats': earlier_stats,
+        'later_stats': later_stats,
+        'change_stats': change_stats
+    })

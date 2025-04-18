@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Analysis Results: {{ project.name }}</h1>
+    <a href="{% url 'project_detail' project.id %}" class="btn btn-outline-secondary">Back to Project</a>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Land Use Change Map</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <img src="{{ result.change_map.url }}" class="img-fluid" alt="Land Use Change Map">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <h4>Legend</h4>
+                        <div class="d-flex flex-wrap">
+                            <div class="me-3 mb-2">
+                                <span class="badge bg-secondary">&nbsp;&nbsp;&nbsp;</span> No Change
+                            </div>
+                            {% for stat in result.earlier_image.statistics.all %}
+                            <div class="me-3 mb-2">
+                                <span class="badge" style="background-color: {{ stat.land_use_class.color }}">&nbsp;&nbsp;&nbsp;</span>
+                                Changed to {{ stat.land_use_class.name }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>{{ result.earlier_image.name }} ({{ result.earlier_image.year }})</h3>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <img src="{{ result.earlier_image.classified_image.url }}" class="img-fluid" alt="Earlier Classified Image">
+                </div>
+                <h4>Land Use Statistics</h4>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Land Use Type</th>
+                            <th>Area (pixels)</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stat in earlier_stats %}
+                        <tr>
+                            <td>
+                                <span class="badge" style="background-color: {{ stat.land_use_class.color }}">
+                                    {{ stat.land_use_class.name }}
+                                </span>
+                            </td>
+                            <td>{{ stat.area_pixels }}</td>
+                            <td>{{ stat.percentage|floatformat:2 }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>{{ result.later_image.name }} ({{ result.later_image.year }})</h3>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <img src="{{ result.later_image.classified_image.url }}" class="img-fluid" alt="Later Classified Image">
+                </div>
+                <h4>Land Use Statistics</h4>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Land Use Type</th>
+                            <th>Area (pixels)</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stat in later_stats %}
+                        <tr>
+                            <td>
+                                <span class="badge" style="background-color: {{ stat.land_use_class.color }}">
+                                    {{ stat.land_use_class.name }}
+                                </span>
+                            </td>
+                            <td>{{ stat.area_pixels }}</td>
+                            <td>{{ stat.percentage|floatformat:2 }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Land Use Change Statistics</h2>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Area (pixels)</th>
+                            <th>Percentage of Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stat in change_stats %}
+                        <tr>
+                            <td>
+                                <span class="badge" style="background-color: {{ stat.from_class.color }}">
+                                    {{ stat.from_class.name }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge" style="background-color: {{ stat.to_class.color }}">
+                                    {{ stat.to_class.name }}
+                                </span>
+                            </td>
+                            <td>{{ stat.area_pixels }}</td>
+                            <td>{{ stat.percentage|floatformat:2 }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+                <div class="mt-4">
+                    <h4>Key Findings</h4>
+                    <ul>
+                        {% for stat in change_stats %}
+                            {% if stat.from_class != stat.to_class and stat.percentage > 5 %}
+                            <li>
+                                <strong>{{ stat.percentage|floatformat:2 }}%</strong> of the area changed from 
+                                <strong>{{ stat.from_class.name }}</strong> to 
+                                <strong>{{ stat.to_class.name }}</strong>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
