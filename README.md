@@ -6,7 +6,7 @@ LandAnalyzer is a Django web application for analyzing land use changes between 
 - Upload and compare two georeferenced images
 - Automated detection of land use changes
 - Visualization of detected changes
-- Downloadable reports and change maps
+- Change analysis report generation
 
 ## Prerequisites
 - Python 3.8+
