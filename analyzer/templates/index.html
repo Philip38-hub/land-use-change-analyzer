@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="header-section text-center">
-    <h1>Land Use Change Analysis</h1>
-    <p class="lead">Upload aerial images, classify land use, and analyze changes over time.</p>
-    <a href="{% url 'project_create' %}" class="btn btn-primary">Start New Analysis</a>
+<div class="header-section">
+    <div class="container">   
+        <h1>Land Use Change Analysis</h1>
+        <p class="lead">Upload aerial images, classify land use, and analyze changes over time.</p>
+        <a href="{% url 'project_create' %}" class="btn btn-primary">Start New Analysis</a>
+    </div>
 </div>
 
-<div class="row mt-5">
+<div class="row mt-4">
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
