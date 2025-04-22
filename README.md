@@ -15,7 +15,7 @@ LandAnalyzer is a Django web application for analyzing land use changes between 
 ## Setup Instructions
 1. Clone this repository:
    ```bash
-   git clone https://github.com/Philip38-hub/land-use-change-analyzer.git
+   git clone https://github.com/Philip38-hub/landanalyzer.git
    cd landanalyzer
    ```
 2. (Recommended) Create and activate a virtual environment:
