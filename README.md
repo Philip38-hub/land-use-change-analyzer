@@ -11,8 +11,6 @@ LandAnalyzer is a Django web application for analyzing land use changes between 
 ## Prerequisites
 - Python 3.8+
 - Django (see requirements.txt)
-- (Planned) GDAL system libraries for advanced geospatial processing
-- (Planned) Leaflet.js for interactive map visualization
 
 ## Setup Instructions
 1. Clone this repository:
@@ -20,25 +18,20 @@ LandAnalyzer is a Django web application for analyzing land use changes between 
    git clone <your-repo-url>
    cd landanalyzer
    ```
-2. (Optional, for future releases) Install GDAL system dependencies:
-   ```bash
-   sudo apt-get update
-   sudo apt-get install gdal-bin libgdal-dev python3-gdal
-   ```
-3. (Recommended) Create and activate a virtual environment:
+2. (Recommended) Create and activate a virtual environment:
    ```bash
    python3 -m venv venv
    source venv/bin/activate
    ```
-4. Install Python dependencies:
+3. Install Python dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-5. Apply Django migrations:
+4. Apply Django migrations:
    ```bash
    python manage.py migrate
    ```
-6. Run the development server:
+5. Run the development server:
    ```bash
    python manage.py runserver
    ```
