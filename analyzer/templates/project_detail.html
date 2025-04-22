@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>{{ project.name }}</h1>
+    <h1 class="text-dark">{{ project.name }}</h1>
     <div>
         <a href="{% url 'project_update' project.id %}" class="btn btn-outline-primary">Edit</a>
         <a href="{% url 'project_delete' project.id %}" class="btn btn-outline-danger">Delete</a>
@@ -10,17 +10,17 @@
 </div>
 
 <div class="card mb-4">
-    <div class="card-body">
-        <h5 class="card-title">Description</h5>
+    <div class="card-body bg-alt">
+        <h5 class="card-title text-dark">Description</h5>
         <p class="card-text">{{ project.description|default:"No description provided." }}</p>
         <p class="text-muted">Created: {{ project.created_at|date:"M d, Y" }}</p>
     </div>
 </div>
 
 <div class="card mb-4">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h2>Images</h2>
-        <a href="{% url 'upload_image' project.id %}" class="btn btn-primary">Upload Image</a>
+    <div class="card-header bg-alt d-flex justify-content-between align-items-center">
+        <h2 class="text-dark">Images</h2>
+        <a href="{% url 'upload_image' project.id %}" class="btn btn-primary" style="padding: 0.5rem 1.2rem; border-radius: 4px; font-weight: 600;">Upload Image</a>
     </div>
     <div class="card-body">
         {% if images %}
@@ -28,29 +28,27 @@
             {% for image in images %}
             <div class="col-md-6 mb-4">
                 <div class="card">
-                    <div class="card-header">
-                        <h5>{{ image.name }} ({{ image.year }})</h5>
+                    <div class="card-header bg-alt">
+                        <h5 class="text-dark">{{ image.name }} ({{ image.year }})</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <h6>Original Image</h6>
+                                <h6 class="text-dark">Original Image</h6>
                                 <img src="{{ image.image.url }}" class="img-fluid" alt="{{ image.name }}">
                             </div>
                             <div class="col-md-6">
-                                <h6>Classified Image</h6>
+                                <h6 class="text-dark">Classified Image</h6>
                                 {% if image.classified_image %}
                                 <img src="{{ image.classified_image.url }}" class="img-fluid" alt="Classified {{ image.name }}">
                                 {% else %}
-                                <div class="alert alert-warning">
-                                    Not classified yet
-                                </div>
+                                <div class="highlight" style="padding: 0.5rem 1rem; border-radius: 4px;">Not classified yet</div>
                                 {% endif %}
                             </div>
                         </div>
                         
                         {% if image.classified_image %}
-                        <h6 class="mt-3">Land Use Statistics</h6>
+                        <h6 class="mt-3 text-dark">Land Use Statistics</h6>
                         <table class="table table-sm">
                             <thead>
                                 <tr>
@@ -87,17 +85,15 @@
             {% endfor %}
         </div>
         {% else %}
-        <div class="alert alert-info">
-            No images uploaded yet. <a href="{% url 'upload_image' project.id %}">Upload an image</a> to begin analysis.
-        </div>
+        <div class="highlight" style="padding: 0.5rem 1rem; border-radius: 4px;">No images uploaded yet. <a href="{% url 'upload_image' project.id %}" class="text-dark">Upload an image</a> to begin analysis.</div>
         {% endif %}
     </div>
 </div>
 
 {% if images.count >= 2 %}
 <div class="card mb-4">
-    <div class="card-header">
-        <h2>Change Analysis</h2>
+    <div class="card-header bg-alt">
+        <h2 class="text-dark">Change Analysis</h2>
     </div>
     <div class="card-body">
         {% if has_result %}
@@ -110,9 +106,7 @@
             {% if classified_count >= 2 %}
             <a href="{% url 'analyze_changes' project.id %}" class="btn btn-primary">Analyze Changes</a>
             {% else %}
-            <div class="alert alert-warning">
-                All images must be classified before analyzing changes.
-            </div>
+            <div class="highlight" style="padding: 0.5rem 1rem; border-radius: 4px;">All images must be classified before analyzing changes.</div>
             {% endif %}
         </p>
         {% endif %}

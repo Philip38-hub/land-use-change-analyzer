@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="card">
-    <div class="card-header">
-        <h1>{% if form.instance.pk %}Edit Project{% else %}New Project{% endif %}</h1>
+    <div class="card-header bg-alt">
+        <h1 class="text-dark">{% if form.instance.pk %}Edit Project{% else %}New Project{% endif %}</h1>
     </div>
     <div class="card-body">
         <form method="post">
@@ -12,21 +12,17 @@
                 <label for="{{ form.name.id_for_label }}" class="form-label">Project Name</label>
                 {{ form.name }}
                 {% if form.name.errors %}
-                <div class="invalid-feedback d-block">
-                    {{ form.name.errors }}
-                </div>
+                <div class="error" style="padding: 0.5rem 1rem; border-radius: 4px;">{{ form.name.errors }}</div>
                 {% endif %}
             </div>
             <div class="mb-3">
                 <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
                 {{ form.description }}
                 {% if form.description.errors %}
-                <div class="invalid-feedback d-block">
-                    {{ form.description.errors }}
-                </div>
+                <div class="error" style="padding: 0.5rem 1rem; border-radius: 4px;">{{ form.description.errors }}</div>
                 {% endif %}
             </div>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.2rem; border-radius: 4px; font-weight: 600;">Save</button>
             <a href="{% url 'project_list' %}" class="btn btn-outline-secondary">Cancel</a>
         </form>
     </div>

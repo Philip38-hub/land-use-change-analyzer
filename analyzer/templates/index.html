@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="header-section">
-    <div class="container">   
+<div class="header-section" style="padding: 2rem 0;">
+    <div class="container">
         <h1>Land Use Change Analysis</h1>
-        <p class="lead">Upload aerial images, classify land use, and analyze changes over time.</p>
-        <a href="{% url 'project_create' %}" class="btn btn-primary">Start New Analysis</a>
+        <p class="lead highlight" style="padding: 0.5rem 1rem; border-radius: 4px;">Upload aerial images, classify land use, and analyze changes over time.</p>
+        <a href="{% url 'project_create' %}" class="btn btn-primary" style="padding: 0.5rem 1.2rem; border-radius: 4px; font-weight: 600;">Start New Analysis</a>
     </div>
 </div>
 
 <div class="row mt-4">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-alt">
                 <h3>How It Works</h3>
             </div>
             <div class="card-body">
@@ -22,13 +22,13 @@
                     <li>Classify land use in each image</li>
                     <li>Analyze and visualize changes between the two images</li>
                 </ol>
-                <p>The system uses K-means clustering to identify different land use types (urban, vegetation, water, etc.) and compares them to detect changes over time.</p>
+                <p class="highlight" style="padding: 0.5rem 1rem; border-radius: 4px;">The system uses K-means clustering to identify different land use types (urban, vegetation, water, etc.) and compares them to detect changes over time.</p>
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-alt">
                 <h3>Recent Projects</h3>
             </div>
             <div class="card-body">
@@ -36,13 +36,13 @@
                 <ul class="list-group">
                     {% for project in projects %}
                     <li class="list-group-item">
-                        <a href="{% url 'project_detail' project.id %}">{{ project.name }}</a>
+                        <a href="{% url 'project_detail' project.id %}" class="text-dark">{{ project.name }}</a>
                         <span class="badge bg-secondary float-end">{{ project.created_at|date:"M d, Y" }}</span>
                     </li>
                     {% endfor %}
                 </ul>
                 {% else %}
-                <p>No projects yet. <a href="{% url 'project_create' %}">Create one now</a>.</p>
+                <p class="error" style="padding: 0.5rem 1rem; border-radius: 4px;">No projects yet. <a href="{% url 'project_create' %}" class="text-dark">Create one now</a>.</p>
                 {% endif %}
             </div>
         </div>
